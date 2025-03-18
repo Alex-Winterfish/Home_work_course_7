@@ -5,7 +5,7 @@ from ed_platform.views import CourseViewSet, LessonCreateAPI, LessonUpdateAPI, L
 app_name = EdPlatformConfig.name
 
 router = SimpleRouter()
-router.register('course', CourseViewSet)
+router.register('courses', CourseViewSet)
 
 urlpatterns = [
     path('lessons_list/', LessonListAPI.as_view(), name='lessons_list'),

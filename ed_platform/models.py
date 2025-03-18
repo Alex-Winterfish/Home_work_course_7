@@ -19,7 +19,7 @@ class LessonModel(models.Model):
     description = models.TextField(max_length=1000, verbose_name='описание')
     preview = models.ImageField(upload_to='ed_platform/lessons/', verbose_name='Превью', blank=True, null=True)
     video_url = models.URLField(blank=True,null=True)
-    course = models.ForeignKey(CourseModel, on_delete=models.CASCADE, related_name='course', verbose_name='курс')
+    course = models.ForeignKey(CourseModel, on_delete=models.CASCADE, related_name='lessons', verbose_name='курс')
 
     def __str__(self):
         return f'Урок: {self.name}'
