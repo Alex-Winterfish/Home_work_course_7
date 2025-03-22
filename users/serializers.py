@@ -19,6 +19,7 @@ class PaymentSerializer(serializers.ModelSerializer):
             "courses_info"
         ]
 
+
 class CustomUserSerializer(serializers.ModelSerializer):
     user_payments = PaymentSerializer(many=True, read_only=True, source='student')
     class Meta:

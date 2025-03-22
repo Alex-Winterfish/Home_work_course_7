@@ -3,6 +3,7 @@ from rest_framework.fields import SerializerMethodField
 
 from ed_platform.models import CourseModel, LessonModel
 
+
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = LessonModel

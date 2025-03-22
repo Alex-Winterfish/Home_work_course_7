@@ -7,3 +7,8 @@ class CustomUserAdmin(admin.ModelAdmin):
     list_filter = ["email"]
     search_help_text = ("email",)
 
+@admin.register(LessonModel)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ("name", "description", "course", "id")
+    list_filter = ["name"]
+    search_help_text = ("name",)
