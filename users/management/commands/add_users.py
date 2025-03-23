@@ -6,25 +6,35 @@ from users.models import CustomUser, PaymentModel
 from ed_platform.models import CourseModel, LessonModel
 
 
+
+
+
 class Command(BaseCommand):
     help = "Add users and payments"
 
     def handle(self, *args, **kwargs):
         CustomUser.objects.all().delete()
-        PaymentModel.objects.all().delete()
+        CourseModel.objects.all().delete()
+        LessonModel.objects.all().delete()
 
         users = [
             {
-                "email": "example_1@mail.com",
+                "email": "owner@mail.com",
+                "username": "Owner",
+                "password": "pbkdf2_sha256$870000$cXDyxcfpSsVnOEgcjD0hd9$e8pQZzj6Q5G5P9MYSjAhJ7He5FEOxhktOcasUGtOxAQ=",
                 "country": "Russia",
-                "username": "student_1",
-                "password": "12345"
             },
             {
-                "email": "example_2@mail.com",
+                "email": "owner_1@mail.com",
+                "username": "Owner_1",
+                "password": "pbkdf2_sha256$870000$k9lZWga6YEePGlyyoZZp0u$dACFQOuJB1EzKRCTvNwnMkr105fVqJ2vUYzsSv9WldQ=",
                 "country": "Russia",
-                "username": "student_2",
-                "password": "12345"
+            },
+            {
+                "email": "moderator@mail.com",
+                "username": "Moderator",
+                "password": "pbkdf2_sha256$870000$qZpBGpbQhswmuhaD5UeGMU$LJQBE2FgTxFfl3axz4cAYbSW9iratOKUxMVA9qsAX58=",
+                "country": "Russia",
             }
         ]
 
@@ -44,55 +54,88 @@ class Command(BaseCommand):
                         )
                     )
 
-        payments = [
-            {
-                "student": CustomUser.objects.get(username='student_1'),
-                "paid_course": CourseModel.objects.get(name='Математический анализ'),
-                "payment_date": datetime.date(2025,3,12),
-                "cost": 10450,
-                "payment_type": 'Наличные'
-            },
-            {
-                "student": CustomUser.objects.get(username='student_1'),
-                "paid_lesson": LessonModel.objects.get(description='Основы органики'),
-                "payment_date": datetime.date(2025,3,13),
-                "cost": 1345,
-                "payment_type": 'Перевод'
-            },
-            {
-                "student": CustomUser.objects.get(username='student_2'),
-                "paid_course": CourseModel.objects.get(name='Начертательная геометрия'),
-                "payment_date": datetime.date(2025,3,17),
-                "cost": 12340,
-                "payment_type": 'Перевод'
-            },
-            {
-                "student": CustomUser.objects.get(username='student_2'),
-                "paid_course": CourseModel.objects.get(name='Органическая химия'),
-                "payment_date": datetime.date(2025,3,15),
-                "cost": 15030,
-                "payment_type": 'Наличные'
-            },
-            {
-                "student": CustomUser.objects.get(username='student_2'),
-                "paid_lesson": LessonModel.objects.get(description='Основы математического анализа'),
-                "payment_date": datetime.date(2025,2,14),
-                "cost": 1345,
-                "payment_type": 'Перевод'
-            }
-        ]
+        courses = [
+                {
+                    "id": 33,
+                    "name": "Русская литература",
+                    "description": "Изучение русской литературы",
+                    "owner": CustomUser.objects.get(email="owner@mail.com")
+                },
+                {
+                    "id": 32,
+                    "name": "Математический анализ",
+                    "description": "Угдубленное зучение геометрии",
+                    "owner": CustomUser.objects.get(email="owner@mail.com")
+                },
+                {
+                    "id": 35,
+                    "name": "Русский Ч+",
+                    "description": "Угдубленное языка",
+                    "owner": CustomUser.objects.get(email="owner_1@mail.com")
+                }
+            ]
 
-        for payment_data in payments:
-            payment, created = PaymentModel.objects.get_or_create(**payment_data)
+        for courses_data in courses:
+            course, created = CourseModel.objects.get_or_create(**courses_data)
             if created:
                 self.stdout.write(
                     self.style.SUCCESS(
-                        f'Студент {payment.student} внес оплату: {payment.payment_type}'
+                        f'Создан курс {course.name}'
                     )
                 )
             else:
                 self.stdout.write(
                     self.style.WARNING(
-                        f'Студент {payment.student} уже вносил оплату: {payment.payment_type}'
+                        f'Курс {course.name} уже существует'
+                    )
+                )
+
+        lessons = [
+                    {
+                        "id": 95,
+                        "name": "Подлежащие и сказуеиое",
+                        "description": "Углубленное языка",
+                        "owner": CustomUser.objects.get(email="owner_1@mail.com")
+
+                    },
+                    {
+                        "id": 96,
+                        "name": "Синтаксис языка",
+                        "description": "Углубленное языка",
+                        "owner": CustomUser.objects.get(email="owner_1@mail.com")
+                    },
+                    {
+                        "id": 98,
+                        "name": "ЛОгарифмы",
+                        "description": "Изучение логарифмов",
+                        "owner": CustomUser.objects.get(email="owner@mail.com")
+
+                    },
+                    {
+                        "id": 99,
+                        "name": "ЛОгарифмы",
+                        "description": "Изучение логарифмов",
+                        "owner": CustomUser.objects.get(email="owner@mail.com")
+                    },
+                    {
+                        "id": 100,
+                        "name": "ЛОгарифмы",
+                        "description": "Изучение логарифмов",
+                        "owner": CustomUser.objects.get(email="owner@mail.com")
+                    }
+                ]
+
+        for lessons_data in lessons:
+            lesson, created = LessonModel.objects.get_or_create(**lessons_data)
+            if created:
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        f'Создан урок {lesson.name}'
+                    )
+                )
+            else:
+                self.stdout.write(
+                    self.style.WARNING(
+                        f'Урок {lesson.name} уже существует'
                     )
                 )

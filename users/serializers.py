@@ -5,8 +5,8 @@ from users.models import PaymentModel, CustomUser
 
 
 class PaymentSerializer(serializers.ModelSerializer):
-    lessons_info = LessonSerializer(source='paid_lesson')
-    courses_info = CourseSerializer(source='paid_course')
+    lessons_info = LessonSerializer(read_only=True, source='paid_lesson')
+    courses_info = CourseSerializer(read_only=True, source='paid_course')
     class Meta:
         model = PaymentModel
         fields = [
