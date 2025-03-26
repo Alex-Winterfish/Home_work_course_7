@@ -32,3 +32,9 @@ class LessonModel(models.Model):
     class Meta:
         verbose_name = 'урок'
         verbose_name_plural = 'уроки'
+
+class SubscriptionModel(models.Model):
+    '''Модель подписки пользователя на курс. Связана с :model: users.CustomUser - пользовательс активной подпиской,
+    :model: ed_platform.CourseModel - курс, на который подписан пользователь.'''
+    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE, name='user')
+    course = models.ForeignKey(CourseModel, on_delete=models.CASCADE, name='course')
