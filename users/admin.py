@@ -6,4 +6,3 @@ class CustomUserAdmin(admin.ModelAdmin):
     list_display = ("id", "email", "phone", "username")
     list_filter = ["email"]
     search_help_text = ("email",)
-

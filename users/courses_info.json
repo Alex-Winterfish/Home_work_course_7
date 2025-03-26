@@ -1,0 +1,5 @@
+{'email': 'example_1@mail.com', 'username': 'student_1', 'password': '12345', 'country': 'Russia', 'phone': None, 'user_payments': [{'id': 17, 'payment_date': '2025-03-12T00:00:00Z
+', 'cost': 10450, 'payment_type': 'Наличные', 'student': 12, 'lessons_info': None, 'courses_info': {'id': 29, 'name': 'Математический анализ', 'preview': None, 'description': 'Осно
+вы математического анализа', 'lessons_count': 2, 'lessons_info': [{'id': 64, 'name': 'Урок 1.', 'description': 'Введение в математический анализ'}, {'id': 65, 'name': 'Урок 2.', 'd
+escription': 'Основы математического анализа'}]}}, {'id': 18, 'payment_date': '2025-03-13T00:00:00Z', 'cost': 1345, 'payment_type': 'Перевод', 'student': 12, 'lessons_info': {'id':
+ 70, 'name': "Урок 1.", 'description': 'Основы органики'}, 'courses_info': None}]}
