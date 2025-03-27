@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 
@@ -27,8 +28,12 @@ class CustomUserSerializer(serializers.ModelSerializer):
     user_subscriptions = SerializerMethodField()
 
     def get_user_subscriptions(self, instance):
-        user_sub = SubscriptionModel.objects.filter(user=instance)
-        return user_sub
+        '''Метод для получения курсов, на которые подписан пользователь.'''
+        sub_list=list()
+        user_subs = SubscriptionModel.objects.filter(user=instance) #получаем подписки пользователя
+        for sub in user_subs:
+            sub_list.append(sub.course.id) #создаем список курсов на которые подписан пользователь
+        return sub_list
 
     class Meta:
         model = CustomUser
