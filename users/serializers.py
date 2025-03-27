@@ -1,5 +1,7 @@
 from rest_framework import serializers
+from rest_framework.fields import SerializerMethodField
 
+from ed_platform.models import SubscriptionModel
 from ed_platform.serializers import LessonSerializer, CourseSerializer
 from users.models import PaymentModel, CustomUser
 
@@ -22,6 +24,12 @@ class PaymentSerializer(serializers.ModelSerializer):
 
 class CustomUserSerializer(serializers.ModelSerializer):
     user_payments = PaymentSerializer(many=True, read_only=True, source='student')
+    user_subscriptions = SerializerMethodField()
+
+    def get_user_subscriptions(self, instance):
+        user_sub = SubscriptionModel.objects.filter(user=instance)
+        return user_sub
+
     class Meta:
         model = CustomUser
-        fields = ['email', 'username', 'password', 'country', 'phone', 'user_payments']
+        fields = ['email', 'username', 'password', 'country', 'phone', 'user_payments', 'user_subscriptions']

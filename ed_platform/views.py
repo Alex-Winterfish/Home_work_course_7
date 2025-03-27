@@ -2,7 +2,7 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
-from ed_platform.models import CourseModel, LessonModel
+from ed_platform.models import CourseModel, LessonModel, SubscriptionModel
 from ed_platform.serializers import CourseSerializer, LessonSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.viewsets import ModelViewSet
@@ -65,10 +65,10 @@ class LessonDestroyAPI(DestroyAPIView):
     permission_classes = (IsOwnerPermission,)
 
 class SubscriptionAPIView(APIView):
-    '''Контроллер для управления подиской :model: ed_platform.SubscriptionModel'''
-
+    '''Контроллер для управления подиской :model: ed_platform.SubscriptionModel.'''
+    queryset = SubscriptionModel.objects.all()
     def post(self, *args, **kwargs):
         user = self.request.user
-        course_id = self.request.data
-        print(course_id)
+        course_id = self.request.parser_context.get('kwargs').get('pk')
+
 
