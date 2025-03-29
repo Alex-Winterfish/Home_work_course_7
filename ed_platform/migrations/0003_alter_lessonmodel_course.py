@@ -7,13 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ed_platform', '0002_alter_lessonmodel_video_url'),
+        ("ed_platform", "0002_alter_lessonmodel_video_url"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='lessonmodel',
-            name='course',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='lessons', to='ed_platform.coursemodel', verbose_name='курс'),
+            model_name="lessonmodel",
+            name="course",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="lessons",
+                to="ed_platform.coursemodel",
+                verbose_name="курс",
+            ),
         ),
     ]

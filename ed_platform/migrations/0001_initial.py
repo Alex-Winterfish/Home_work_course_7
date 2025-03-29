@@ -8,36 +8,89 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='CourseModel',
+            name="CourseModel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, unique=True, verbose_name='Название курса')),
-                ('preview', models.ImageField(blank=True, null=True, upload_to='ed_platform/courses', verbose_name='Превью')),
-                ('description', models.TextField(max_length=1000, verbose_name='Описание')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=100, unique=True, verbose_name="Название курса"
+                    ),
+                ),
+                (
+                    "preview",
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to="ed_platform/courses",
+                        verbose_name="Превью",
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(max_length=1000, verbose_name="Описание"),
+                ),
             ],
             options={
-                'verbose_name': 'курс',
-                'verbose_name_plural': 'курсы',
+                "verbose_name": "курс",
+                "verbose_name_plural": "курсы",
             },
         ),
         migrations.CreateModel(
-            name='LessonModel',
+            name="LessonModel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Название урока')),
-                ('description', models.TextField(max_length=1000, verbose_name='описание')),
-                ('preview', models.ImageField(blank=True, null=True, upload_to='ed_platform/lessons/', verbose_name='Превью')),
-                ('video_url', models.URLField()),
-                ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='course', to='ed_platform.coursemodel', verbose_name='курс')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=100, verbose_name="Название урока"),
+                ),
+                (
+                    "description",
+                    models.TextField(max_length=1000, verbose_name="описание"),
+                ),
+                (
+                    "preview",
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to="ed_platform/lessons/",
+                        verbose_name="Превью",
+                    ),
+                ),
+                ("video_url", models.URLField()),
+                (
+                    "course",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="course",
+                        to="ed_platform.coursemodel",
+                        verbose_name="курс",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'урок',
-                'verbose_name_plural': 'уроки',
+                "verbose_name": "урок",
+                "verbose_name_plural": "уроки",
             },
         ),
     ]

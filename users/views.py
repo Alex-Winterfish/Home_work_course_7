@@ -15,41 +15,51 @@ class PaymentViewSet(ModelViewSet):
     queryset = PaymentModel.objects.all()
     serializer_class = PaymentSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
-    search_fields = ('paid_course__name', 'paid_lesson__name', 'paid_lesson__description',
-                     'paid_course__description', 'payment_type')
-    ordering_fields = ('payment_date',)
+    search_fields = (
+        "paid_course__name",
+        "paid_lesson__name",
+        "paid_lesson__description",
+        "paid_course__description",
+        "payment_type",
+    )
+    ordering_fields = ("payment_date",)
 
     def get_permissions(self):
-        if self.action in ['create', 'destroy']:
-            self.permission_classes = (~IsModerPermission)
-        elif self.action in ['retrieve', 'update']:
+        if self.action in ["create", "destroy"]:
+            self.permission_classes = ~IsModerPermission
+        elif self.action in ["retrieve", "update"]:
             self.permission_classes = (IsModerPermission, IsAuthenticated)
 
 
 class CustomUserViewSet(ModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+
     def create(self, request, *args, **kwargs):
-        return Response('Для регистрации пользователя используйте url: users/register/')
+        return Response("Для регистрации пользователя используйте url: users/register/")
 
 
 class CustomUserRegisterView(CreateAPIView):
-    '''Представление для регистрации пользователя'''
+    """Представление для регистрации пользователя"""
+
     serializer_class = CustomUserSerializer
     queryset = CustomUser.objects.all()
     permission_classes = (AllowAny,)
+
     def perform_create(self, serializer):
         user = serializer.save(is_active=True)
         user.set_password(user.password)
         user.save()
 
+
 class MyTokenObtainPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
+
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
 
-        token['username'] = user.username
-        token['email'] = user.email
+        token["username"] = user.username
+        token["email"] = user.email
 
         return token

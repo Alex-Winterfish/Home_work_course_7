@@ -8,8 +8,9 @@ from users.models import PaymentModel, CustomUser
 
 
 class PaymentSerializer(serializers.ModelSerializer):
-    lessons_info = LessonSerializer(read_only=True, source='paid_lesson')
-    courses_info = CourseSerializer(read_only=True, source='paid_course')
+    lessons_info = LessonSerializer(read_only=True, source="paid_lesson")
+    courses_info = CourseSerializer(read_only=True, source="paid_course")
+
     class Meta:
         model = PaymentModel
         fields = [
@@ -19,22 +20,34 @@ class PaymentSerializer(serializers.ModelSerializer):
             "payment_type",
             "student",
             "lessons_info",
-            "courses_info"
+            "courses_info",
         ]
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    user_payments = PaymentSerializer(many=True, read_only=True, source='student')
+    user_payments = PaymentSerializer(many=True, read_only=True, source="student")
     user_subscriptions = SerializerMethodField()
 
     def get_user_subscriptions(self, instance):
-        '''Метод для получения курсов, на которые подписан пользователь.'''
-        sub_list=list()
-        user_subs = SubscriptionModel.objects.filter(user=instance) #получаем подписки пользователя
+        """Метод для получения курсов, на которые подписан пользователь."""
+        sub_list = list()
+        user_subs = SubscriptionModel.objects.filter(
+            user=instance
+        )  # получаем подписки пользователя
         for sub in user_subs:
-            sub_list.append(sub.course.id) #создаем список курсов на которые подписан пользователь
+            sub_list.append(
+                sub.course.id
+            )  # создаем список курсов на которые подписан пользователь
         return sub_list
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'username', 'password', 'country', 'phone', 'user_payments', 'user_subscriptions']
+        fields = [
+            "email",
+            "username",
+            "password",
+            "country",
+            "phone",
+            "user_payments",
+            "user_subscriptions",
+        ]
