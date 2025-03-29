@@ -31,7 +31,6 @@ class LessonsTestCase(APITestCase):
 
     def test_get_lesson(self):
         """Тестирование получения курса"""
-        # self.client.force_authenticate(user=self.test_user)
 
         request = self.client.get(f"/lesson_retrieve/{self.lesson_1.pk}/")
 
@@ -51,7 +50,6 @@ class LessonsTestCase(APITestCase):
 
     def test_get_lessons_list(self):
         """Тестироване получения списка уроков"""
-        # self.client.force_authenticate(user=self.test_user)
 
         request = self.client.get("/lessons_list/")
 
@@ -84,8 +82,6 @@ class LessonsTestCase(APITestCase):
 
     def test_lesson_create(self):
         """Тестирование создания экземпляра курса"""
-
-        # self.client.force_authenticate(user=self.test_user)
 
         data = {
             "name": "Test_lesson_3",
@@ -137,15 +133,12 @@ class LessonsTestCase(APITestCase):
     def test_lesson_delete(self):
         """Тестирование удаления урока"""
 
-        # self.client.force_authenticate(user=self.test_user)
-
         request = self.client.delete(f"/lesson_destroy/{self.lesson_1.pk}/")
 
         self.assertEqual(request.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_lesson_update(self):
         """Тестирование обновление урока"""
-        # self.client.force_authenticate(user=self.test_user)
 
         data = {
             "name": "Test_lesson_1",
