@@ -15,12 +15,16 @@ class PaymentSerializer(serializers.ModelSerializer):
         model = PaymentModel
         fields = [
             "id",
+            "paid_course",
+            "paid_lesson",
             "payment_date",
             "cost",
             "payment_type",
             "student",
             "lessons_info",
             "courses_info",
+            "session_id",
+            "payment_link",
         ]
 
 

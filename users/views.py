@@ -9,6 +9,7 @@ from users.models import PaymentModel, CustomUser
 from users.permissions import IsModerPermission
 from users.serializers import PaymentSerializer, CustomUserSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from users.services import stripe_create_price, stripe_create_session
 
 
 class PaymentViewSet(ModelViewSet):
@@ -24,11 +25,22 @@ class PaymentViewSet(ModelViewSet):
     )
     ordering_fields = ("payment_date",)
 
+    def perform_create(self, serializer):
+
+        payment = serializer.save(student=self.request.user)
+        price = stripe_create_price(payment.cost)
+        session_id, payment_link = stripe_create_session(price)
+        payment.session_id = session_id
+        payment.payment_link = payment_link
+        payment.payment_type = "Перевод"
+        payment.save()
+
     def get_permissions(self):
         if self.action in ["create", "destroy"]:
-            self.permission_classes = ~IsModerPermission
-        elif self.action in ["retrieve", "update"]:
-            self.permission_classes = (IsModerPermission, IsAuthenticated)
+            self.permission_classes = [IsAuthenticated, ~IsModerPermission]
+        elif self.action in ["retrieve", "update", "list"]:
+            self.permission_classes = [IsModerPermission, IsAuthenticated]
+        return super().get_permissions()
 
 
 class CustomUserViewSet(ModelViewSet):

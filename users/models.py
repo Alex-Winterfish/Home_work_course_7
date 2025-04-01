@@ -48,7 +48,7 @@ class PaymentModel(models.Model):
         verbose_name="студент",
         related_name="student",
     )
-    payment_date = models.DateTimeField(verbose_name="дата оплаты")
+    payment_date = models.DateTimeField(auto_now_add=True, verbose_name="дата оплаты")
     paid_course = models.ForeignKey(
         CourseModel,
         on_delete=models.CASCADE,
@@ -67,7 +67,13 @@ class PaymentModel(models.Model):
     )
     cost = models.PositiveIntegerField(verbose_name="стоимость")
     payment_type = models.CharField(
-        choices=PAYMENT_IN_CHOICES, verbose_name="способ оплаты"
+        choices=PAYMENT_IN_CHOICES, verbose_name="способ оплаты", null=True, blank=True
+    )
+    session_id = models.CharField(
+        max_length=400, verbose_name="id сессии", null=True, blank=True
+    )
+    payment_link = models.URLField(
+        max_length=400, verbose_name="ссылка на платеж", null=True, blank=True
     )
 
     def __str__(self):
