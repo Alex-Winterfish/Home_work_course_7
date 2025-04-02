@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+from django.utils.decorators import method_decorator
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -15,10 +16,47 @@ from rest_framework.generics import (
 from rest_framework.viewsets import ModelViewSet
 from ed_platform.pagination import MyPagination
 from users.permissions import IsOwnerPermission, IsModerPermission
+from drf_yasg.utils import swagger_auto_schema
 
 
+@method_decorator(
+    name="retrieve",
+    decorator=swagger_auto_schema(
+        operation_description="Получение экземпляра :model:ed_platform.CourseModel.",
+    ),
+)
+@method_decorator(
+    name="create",
+    decorator=swagger_auto_schema(
+        operation_description="Создание экземпляра :model:ed_platform.CourseModel.",
+    ),
+)
+@method_decorator(
+    name="list",
+    decorator=swagger_auto_schema(
+        operation_description="Получение списка экземпляров :model:ed_platform.CourseModel.",
+    ),
+)
+@method_decorator(
+    name="update",
+    decorator=swagger_auto_schema(
+        operation_description="Изменение экземпляра :model:ed_platform.CourseModel.",
+    ),
+)
+@method_decorator(
+    name="partial_update",
+    decorator=swagger_auto_schema(
+        operation_description="Частичное изменение экземпляра :model:ed_platform.CourseModel.",
+    ),
+)
+@method_decorator(
+    name="destroy",
+    decorator=swagger_auto_schema(
+        operation_description="Удаление экземпляра :model:ed_platform.CourseModel.",
+    ),
+)
 class CourseViewSet(ModelViewSet):
-    """ViewSet для операций над :model:ed_platform.CurseModel"""
+    """ViewSet для операций над :model:ed_platform.CourseModel"""
 
     queryset = CourseModel.objects.all()
     serializer_class = CourseSerializer

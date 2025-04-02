@@ -8,7 +8,6 @@ from rest_framework.routers import SimpleRouter
 from users.views import (
     PaymentViewSet,
     MyTokenObtainPairView,
-    CustomUserRegisterView,
     CustomUserViewSet,
 )
 
@@ -25,5 +24,4 @@ urlpatterns = [
         TokenRefreshView.as_view(permission_classes=(AllowAny)),
         name="token_refresh",
     ),
-    path("users/register/", CustomUserRegisterView.as_view(), name="register"),
 ] + router.urls
