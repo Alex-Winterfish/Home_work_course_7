@@ -110,6 +110,23 @@ class LessonUpdateAPI(UpdateAPIView):
     serializer_class = LessonSerializer
     permission_classes = (IsOwnerPermission,)
 
+    def update(self, request, *args, **kwargs):
+
+        lesson_id = request.parser_context.get("kwargs").get(
+            "pk"
+        )  # Получаем id урока из запроса
+        lesson = LessonModel.objects.get(id=lesson_id)
+        course = lesson.course
+        subscription = SubscriptionModel.objects.filter(course=course)
+        for sub in subscription:
+            print(sub.user, course)
+
+
+        return super().update(request, *args, **kwargs)
+
+
+
+
 
 class LessonDestroyAPI(DestroyAPIView):
     """Удаляет экземпляр :model: ed_platform.LessonModel"""
