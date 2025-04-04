@@ -18,6 +18,8 @@ from ed_platform.pagination import MyPagination
 from users.permissions import IsOwnerPermission, IsModerPermission
 from drf_yasg.utils import swagger_auto_schema
 
+from users.services import send_update
+
 
 @method_decorator(
     name="retrieve",
@@ -112,15 +114,7 @@ class LessonUpdateAPI(UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
 
-        lesson_id = request.parser_context.get("kwargs").get(
-            "pk"
-        )  # Получаем id урока из запроса
-        lesson = LessonModel.objects.get(id=lesson_id)
-        course = lesson.course
-        subscription = SubscriptionModel.objects.filter(course=course)
-        for sub in subscription:
-            print(sub.user, course)
-
+        send_update(request)
 
         return super().update(request, *args, **kwargs)
 
