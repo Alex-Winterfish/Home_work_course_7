@@ -18,7 +18,7 @@ from ed_platform.pagination import MyPagination
 from users.permissions import IsOwnerPermission, IsModerPermission
 from drf_yasg.utils import swagger_auto_schema
 
-from users.services import send_update
+from ed_platform.tasks import send_lesson_update, send_course_update
 
 
 @method_decorator(
@@ -63,6 +63,15 @@ class CourseViewSet(ModelViewSet):
     queryset = CourseModel.objects.all()
     serializer_class = CourseSerializer
     pagination_class = MyPagination
+
+    def update(self, request, *args, **kwargs):
+
+        course_id = request.parser_context.get("kwargs").get(
+            "pk"
+        )  # Получаем id курса из запроса
+        send_course_update.delay(course_id)
+
+        return super().update(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -114,11 +123,9 @@ class LessonUpdateAPI(UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
 
-        send_update(request)
+        send_lesson_update(request, action='update')
 
         return super().update(request, *args, **kwargs)
-
-
 
 
 
@@ -128,6 +135,12 @@ class LessonDestroyAPI(DestroyAPIView):
     queryset = LessonModel.objects.all()
     serializer_class = LessonSerializer
     permission_classes = (IsOwnerPermission,)
+
+    def delete(self, request, *args, **kwargs):
+
+        send_lesson_update(request, action='delete')
+
+        return  super().delete(request, *args, **kwargs)
 
 
 class SubscriptionAPIView(APIView):
