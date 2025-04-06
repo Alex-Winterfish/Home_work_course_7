@@ -18,6 +18,8 @@ from ed_platform.pagination import MyPagination
 from users.permissions import IsOwnerPermission, IsModerPermission
 from drf_yasg.utils import swagger_auto_schema
 
+from ed_platform.tasks import send_course_update
+
 
 @method_decorator(
     name="retrieve",
@@ -61,6 +63,15 @@ class CourseViewSet(ModelViewSet):
     queryset = CourseModel.objects.all()
     serializer_class = CourseSerializer
     pagination_class = MyPagination
+
+    def update(self, request, *args, **kwargs):
+
+        course_id = request.parser_context.get("kwargs").get(
+            "pk"
+        )  # Получаем id курса из запроса
+        send_course_update.delay(course_id)
+
+        return super().update(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

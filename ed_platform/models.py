@@ -29,6 +29,7 @@ class LessonModel(models.Model):
     """Модель урока. Связана с :model: users.CustomUser - создатель экземпляра, :model: ed_platform.CourseModel -
     курс к которому относится урок"""
 
+    update = models.DateTimeField(auto_now=True, verbose_name="Время изменнения")
     name = models.CharField(max_length=100, verbose_name="Название урока")
     description = models.TextField(max_length=1000, verbose_name="описание")
     preview = models.ImageField(
