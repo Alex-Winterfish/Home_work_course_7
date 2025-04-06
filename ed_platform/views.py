@@ -18,7 +18,7 @@ from ed_platform.pagination import MyPagination
 from users.permissions import IsOwnerPermission, IsModerPermission
 from drf_yasg.utils import swagger_auto_schema
 
-from ed_platform.tasks import send_lesson_update, send_course_update
+from ed_platform.tasks import send_course_update
 
 
 @method_decorator(
@@ -121,13 +121,6 @@ class LessonUpdateAPI(UpdateAPIView):
     serializer_class = LessonSerializer
     permission_classes = (IsOwnerPermission,)
 
-    def update(self, request, *args, **kwargs):
-
-        send_lesson_update(request, action='update')
-
-        return super().update(request, *args, **kwargs)
-
-
 
 class LessonDestroyAPI(DestroyAPIView):
     """Удаляет экземпляр :model: ed_platform.LessonModel"""
@@ -135,12 +128,6 @@ class LessonDestroyAPI(DestroyAPIView):
     queryset = LessonModel.objects.all()
     serializer_class = LessonSerializer
     permission_classes = (IsOwnerPermission,)
-
-    def delete(self, request, *args, **kwargs):
-
-        send_lesson_update(request, action='delete')
-
-        return  super().delete(request, *args, **kwargs)
 
 
 class SubscriptionAPIView(APIView):

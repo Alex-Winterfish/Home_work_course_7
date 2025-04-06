@@ -1,11 +1,8 @@
 # -*- coding: UTF-8 -*-
-import os
 
 import stripe
-from django.core.mail import send_mail
 
 from config.settings import STRIPE_API_KEY
-from ed_platform.models import LessonModel, SubscriptionModel, CourseModel
 
 stripe.api_key = STRIPE_API_KEY
 
